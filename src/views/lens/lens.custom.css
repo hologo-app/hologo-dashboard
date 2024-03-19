@@ -1,0 +1,44 @@
+.custom-file-input {
+    width: 250px; /* Adjust width as needed to match other fields */
+    height: 50px; /* Adjust height as needed */
+    padding: 10px;
+    border: 1px solid #ccc; /* Adjust border style and color */
+    border-radius: 12px; /* Adjust border radius */
+    background-color: #fff; /* Adjust background color */
+    cursor: pointer;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .custom-file-input:hover {
+    border-color: #999; /* Adjust hover border color */
+  }
+  
+  .custom-file-input input[type="file"] {
+    width: 100%; /* Set width to 100% to fill the container */
+    height: 100%; /* Set height to 100% to fill the container */
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; /* Hide the default input element */
+  }
+  
+  .custom-file-input:before {
+    /* Customize the text displayed for the selected file (optional) */
+    content: "Select File"; /* Replace with desired text */
+    display: flex;
+    width: 100%;
+    text-align: left;
+    align-items: center;
+    /* white-space: nowrap; */
+    overflow: ellipsis; /* Truncate long filenames */
+    color: #999; /* Adjust text color */
+    line-height: 50px; /* Match height of the container */
+  }
+
+
+
+  .m-top{
+    margin-top: 20px;
+  }
+
