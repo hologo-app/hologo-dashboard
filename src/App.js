@@ -11,6 +11,7 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
+import { GlobalUserProvider } from 'context/GlobalContext';
 
 // ==============================|| APP ||============================== //
 
@@ -19,12 +20,14 @@ const App = () => {
 
   return (
     <StyledEngineProvider injectFirst>
+      <GlobalUserProvider>
       <ThemeProvider theme={themes(customization)}>
         <CssBaseline />
         <NavigationScroll>
           <Routes />
         </NavigationScroll>
       </ThemeProvider>
+      </GlobalUserProvider>
     </StyledEngineProvider>
   );
 };

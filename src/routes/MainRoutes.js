@@ -43,7 +43,7 @@ const MainRoutes = {
       children: [
         {
           path: '',
-          element: <LensPage />
+          element:  <LensPage />
         }
       ]
     },
