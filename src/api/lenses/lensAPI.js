@@ -1,6 +1,7 @@
 import axios from "./../../utils/axiosPrivate";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
 import { useState,useEffect } from "react";
+import { useGlobal } from "context/GlobalContext";
 
 export const useCreateLens = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -20,6 +21,7 @@ export const useGetLenses = () => {
   const axiosPrivate = useAxiosPrivate();
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const { fetch} = useGlobal();
 
   useEffect(() => {
     const getLenses = async () => {
@@ -32,7 +34,7 @@ export const useGetLenses = () => {
     };
 
     getLenses();
-  }, [axiosPrivate]);
+  }, [axiosPrivate,fetch]);
 
   return { response, error };
 };
@@ -41,9 +43,11 @@ export const useGetLenses = () => {
 
 export const useDeleteLens = () => {
   const axiosPrivate = useAxiosPrivate();
+  const { fetch ,setFetch } = useGlobal();
   const deleteLens = async (lensID) => {
     try {
       const response = await axiosPrivate.delete("/lens", { data: { lensID } });
+      setFetch(fetch+1);
       return response;
     } catch (error) {
       throw error;

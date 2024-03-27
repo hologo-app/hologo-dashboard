@@ -25,7 +25,7 @@
   
   .custom-file-input:before {
     /* Customize the text displayed for the selected file (optional) */
-    content: "Select File"; /* Replace with desired text */
+   /* content: "Select File";  Replace with desired text */
     display: flex;
     width: 100%;
     text-align: left;
@@ -33,7 +33,7 @@
     /* white-space: nowrap; */
     overflow: ellipsis; /* Truncate long filenames */
     color: #999; /* Adjust text color */
-    line-height: 50px; /* Match height of the container */
+   /* line-height: 50px;  Match height of the container */
   }
 
 

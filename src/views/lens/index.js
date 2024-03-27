@@ -62,6 +62,10 @@ const Lenses = () => {
       lensGroupID: "",
       lensImage: "",
     });
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+      fileInput.value = ""; // Reset the value to clear the file input field
+    }
   };
 
   const theme = useTheme();

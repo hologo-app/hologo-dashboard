@@ -19,7 +19,7 @@ const LensesTable = () => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
   const [lensData, setLensData] = useState([]);
-  const { fetch } = useGlobal();
+  const { fetch ,setFetch} = useGlobal();
 
   const { response, error } = useGetLenses(); // Call the custom hook here
   const { deleteLens} = useDeleteLens();
@@ -40,9 +40,14 @@ const LensesTable = () => {
     // fetchLenses();
   }, [fetch]);
 
-  const handleDelete = (lensID) => {
-    deleteLens(lensID);
-    // fetchLenses();
+  const handleDelete = async (lensID) => {
+    try {
+      const response = await  deleteLens(lensID);;
+      console.log(response);
+      setFetch(fetch + 1);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleRequestSort = (event, property) => {
