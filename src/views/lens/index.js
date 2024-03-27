@@ -9,19 +9,21 @@ import MainCard from "components/ui-component/cards/MainCard";
 import { useTheme } from "@mui/material/styles";
 import "./lens.custom.css";
 import LensesTable from "components/ui-component/tables/LensesTable";
-import { CreateLens } from "api/lenses/lensAPI";
+import { useCreateLens } from "api/lenses/lensAPI";
 import { useGlobal } from "context/GlobalContext";
 
 const Lenses = () => {
+
+  const {createLens} = useCreateLens()
+
   const [formData, setFormData] = useState({
     lensCategory: "",
     lensName: "",
     lensGroupID: "",
-    lensImage: "",
+    lensImage: "", // We will store base64 image here
   });
 
-  const {fetch ,setFetch} = useGlobal();
-
+  const { fetch, setFetch } = useGlobal();
 
   const handleChange = (event) => {
     setFormData({
@@ -30,20 +32,30 @@ const Lenses = () => {
     });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData({
+        ...formData,
+        lensImage: reader.result, // Set base64 encoded image
+      });
+    };
+    reader.readAsDataURL(file); // Read file as data URL (base64 encoded)
+  };
 
-    // Process form data here (e.g., send to a server)
-    console.log("Form submitted:", formData);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     try {
-      const response = await CreateLens(formData);
-      setFetch(fetch+1);
+      const response = await createLens(formData);
+      console.log(response);
+      setFetch(fetch + 1);
     } catch (error) {
       console.log(error);
     }
 
-    // Clear the form after submission
+    // Reset form data
     setFormData({
       lensCategory: "",
       lensName: "",
@@ -53,13 +65,13 @@ const Lenses = () => {
   };
 
   const theme = useTheme();
-
   return (
     <>
       <MainCard title="Add Lenses">
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
+          encType="multipart/form-data"
         >
           {/* Set a fixed width for all FormControls and the Button */}
           <FormControl
@@ -120,8 +132,9 @@ const Lenses = () => {
             <input
               type="file"
               name="lensImage"
-              onChange={handleChange}
+              onChange={handleImageChange}
               className="custom-file-input"
+              
               required
             />
           </FormControl>

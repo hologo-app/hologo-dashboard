@@ -1,38 +1,58 @@
-import axios from "utils/axios";
+import axios from "./../../utils/axiosPrivate";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
+import { useState,useEffect } from "react";
 
-export const CreateLens = async (data) => {
-  try {
-    const response = await axios.post("/lens", data, {
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "0",
-      },
-    });
-    return response;
-  } catch (error) {
-    throw error;
-  }
+export const useCreateLens = () => {
+  const axiosPrivate = useAxiosPrivate();
+  const createLens = async (data) => {
+    try {
+      const response = await axiosPrivate.post("/lens", data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { createLens }; // Return createLens function
 };
 
-export const GetLenses = async () => {
-  try {
-    const response = await axios.get("/lens");
-    return response;
-  } catch (error) {
-    throw error;
-  }
+export const useGetLenses = () => {
+  const axiosPrivate = useAxiosPrivate();
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getLenses = async () => {
+      try {
+        const response = await axiosPrivate.get("/lens");
+        setResponse(response);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    getLenses();
+  }, [axiosPrivate]);
+
+  return { response, error };
 };
 
-export const DeleteLens = async (lensID) => {
-  try {
-    console.log(lensID)
-    const response = await axios.delete('/lens', { data: { lensID } });
-    console.log(response)
-    return response;
-  } catch (error) {
-    throw error;
-  }
+
+
+export const useDeleteLens = () => {
+  const axiosPrivate = useAxiosPrivate();
+  const deleteLens = async (lensID) => {
+    try {
+      const response = await axiosPrivate.delete("/lens", { data: { lensID } });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { deleteLens }; // Return delete function
 };
+
 
 export const EditLens = async (lensID, updatedData) => {
   try {

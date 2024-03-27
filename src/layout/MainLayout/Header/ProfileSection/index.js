@@ -9,21 +9,21 @@ import {
   Avatar,
   Box,
   Card,
-  CardContent,
+  // CardContent,
   Chip,
   ClickAwayListener,
   Divider,
   Grid,
-  InputAdornment,
+  // InputAdornment,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  OutlinedInput,
+  // OutlinedInput,
   Paper,
   Popper,
   Stack,
-  Switch,
+  // Switch,
   Typography
 } from '@mui/material';
 
@@ -33,11 +33,12 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'components/ui-component/cards/MainCard';
 import Transitions from 'components/ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
+// import UpgradePlanCard from './UpgradePlanCard';
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
+import { logoutUser } from 'api/logout/logoutAPI';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -56,7 +57,8 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
-    console.log('Logout');
+    const response = logoutUser();
+    navigate("/pages/login/login3")
   };
 
   const handleClose = (event) => {
@@ -164,7 +166,7 @@ const ProfileSection = () => {
                       </Stack>
                       <Typography variant="subtitle2">Project Admin</Typography>
                     </Stack>
-                    <OutlinedInput
+                    {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
                       id="input-search-profile"
                       value={value}
@@ -179,56 +181,12 @@ const ProfileSection = () => {
                       inputProps={{
                         'aria-label': 'weight'
                       }}
-                    />
+                    /> */}
                     <Divider />
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                     <Box sx={{ p: 2 }}>
-                      <UpgradePlanCard />
-                      <Divider />
-                      <Card
-                        sx={{
-                          bgcolor: theme.palette.primary.light,
-                          my: 2
-                        }}
-                      >
-                        <CardContent>
-                          <Grid container spacing={3} direction="column">
-                            <Grid item>
-                              <Grid item container alignItems="center" justifyContent="space-between">
-                                <Grid item>
-                                  <Typography variant="subtitle1">Start DND Mode</Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Switch
-                                    color="primary"
-                                    checked={sdm}
-                                    onChange={(e) => setSdm(e.target.checked)}
-                                    name="sdm"
-                                    size="small"
-                                  />
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                            <Grid item>
-                              <Grid item container alignItems="center" justifyContent="space-between">
-                                <Grid item>
-                                  <Typography variant="subtitle1">Allow Notifications</Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Switch
-                                    checked={notification}
-                                    onChange={(e) => setNotification(e.target.checked)}
-                                    name="sdm"
-                                    size="small"
-                                  />
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </CardContent>
-                      </Card>
-                      <Divider />
+                   
                       <List
                         component="nav"
                         sx={{
@@ -288,7 +246,7 @@ const ProfileSection = () => {
                           selected={selectedIndex === 4}
                           onClick={handleLogout}
                         >
-                          <ListItemIcon>
+                          <ListItemIcon  >
                             <IconLogout stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
