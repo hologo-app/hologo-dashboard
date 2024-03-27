@@ -46,6 +46,8 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
+  const username = localStorage.getItem("username").charAt(0).toUpperCase().concat(localStorage.getItem("username").slice(1).toLowerCase())
+  const role = localStorage.getItem("authRole")
 
   const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState('');
@@ -58,7 +60,8 @@ const ProfileSection = () => {
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     const response = logoutUser();
-    navigate("/pages/login/login3")
+    localStorage.clear();
+    navigate("/auth")
   };
 
   const handleClose = (event) => {
@@ -161,10 +164,10 @@ const ProfileSection = () => {
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">Good Morning,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
+                         {username}
                         </Typography>
                       </Stack>
-                      <Typography variant="subtitle2">Project Admin</Typography>
+                      <Typography variant="subtitle2">{role}</Typography>
                     </Stack>
                     {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}

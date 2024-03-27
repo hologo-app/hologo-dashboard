@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -41,7 +41,7 @@ const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
-  const customization = useSelector((state) => state.customization);
+  // const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
   const navigate = useNavigate();
   const { setAuth } = useAuth();
@@ -140,17 +140,18 @@ const FirebaseLogin = ({ ...others }) => {
             console.log((await response).status);
             if ((await response).status == 200) {
 
-              const accessToken = response.accessToken;
-              const role = response.role;
-              const username = response.username;
-
+              const accessToken = (await response).data.accessToken;
+              const role = (await response).data.role;
+              const username = (await response).data.username;
+              console.log(role)
+              localStorage.setItem("authRole",role);
+              localStorage.setItem("username",username);
               setAuth({accessToken , role , username})
               setStatus({ success: true });
               setSubmitting(true);
               navigate("/");
             }
 
-            console.log(values.username);
           } catch (err) {
             console.error(err);
             setStatus({ success: false });
