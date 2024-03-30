@@ -12,27 +12,30 @@ const DashboardDefault = Loadable(
 );
 const LensPage = Loadable(lazy(() => import("views/lens")));
 
-
 // ==============================|| MAIN ROUTING ||============================== //
 
-const ROLES = ["Admin","Moderator"]
-
+const ROLES = ["Admin", "Moderator"];
 
 const MainRoutes = {
   path: "/",
   element: <MainLayout />,
   children: [
-    {
-      path: "/",
-      element: <RequireAuth allowedRoles={ROLES[0]} />,
-      children: [{ path: "/", element: <DashboardDefault /> }],
-    },
+    // {
+    //   path: "/",
+    //   element: <RequireAuth allowedRoles={ROLES[0]} />,
+    //   children: [
+    //     { 
+    //       path: "", 
+    //       element: <DashboardDefault /> 
+    //     }
+    //   ],
+    // },
     {
       path: "dashboard",
       element: <RequireAuth allowedRoles={ROLES[0]} />, // Here
       children: [
         {
-          path: "default",
+          path: "",
           element: <DashboardDefault />,
         },
       ],

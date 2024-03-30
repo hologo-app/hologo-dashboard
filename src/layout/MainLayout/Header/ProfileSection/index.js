@@ -61,7 +61,7 @@ const ProfileSection = () => {
   const handleLogout = async () => {
     const response = logoutUser();
     localStorage.clear();
-    navigate("/auth")
+    navigate("/")
   };
 
   const handleClose = (event) => {

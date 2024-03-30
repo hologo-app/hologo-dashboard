@@ -149,7 +149,7 @@ const FirebaseLogin = ({ ...others }) => {
               setAuth({accessToken , role , username})
               setStatus({ success: true });
               setSubmitting(true);
-              navigate("/");
+              navigate("/dashboard");
             }
 
           } catch (err) {
