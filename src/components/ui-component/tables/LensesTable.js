@@ -14,15 +14,25 @@ import { Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { useGlobal } from "context/GlobalContext";
 import { width } from "@mui/system";
+import AlertNotification from "components/alerts/AlertNotification";
 
 const LensesTable = () => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
   const [lensData, setLensData] = useState([]);
-  const { fetch ,setFetch} = useGlobal();
+  const {
+    fetch,
+    setFetch,
+    errorMessage,
+    setErrorMessage,
+    showError,
+    setShowError,
+    showDeleteSuccess,
+    setShowDeleteSuccess,
+  } = useGlobal();
 
   const { response, error } = useGetLenses(); // Call the custom hook here
-  const { deleteLens} = useDeleteLens();
+  const { deleteLens } = useDeleteLens();
 
   useEffect(() => {
     if (response) {
@@ -42,10 +52,15 @@ const LensesTable = () => {
 
   const handleDelete = async (lensID) => {
     try {
-      const response = await  deleteLens(lensID);;
-      console.log(response);
+      const response = await deleteLens(lensID);
+      console.log(response.status);
+      if (response.status == 200) {
+        setShowDeleteSuccess(true);
+      }
       setFetch(fetch + 1);
     } catch (error) {
+      setErrorMessage(error);
+      setShowError(true);
       console.log(error);
     }
   };
@@ -57,95 +72,109 @@ const LensesTable = () => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="Lenses table">
-        <TableHead>
-          <TableRow>
-            <TableCell>
-              <TableSortLabel
-                active={orderBy === "lensCategory"}
-                direction={orderBy === "lensCategory" ? order : "asc"}
-                onClick={(event) => handleRequestSort(event, "lensCategory")}
-              >
-                Lens Category
-                {orderBy === "lensCategory" ? (
-                  <span style={{ ...visuallyHidden }}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </span>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell>
-              <TableSortLabel
-                active={orderBy === "lensName"}
-                direction={orderBy === "lensName" ? order : "asc"}
-                onClick={(event) => handleRequestSort(event, "lensName")}
-              >
-                Lens Name
-                {orderBy === "lensName" ? (
-                  <span style={{ ...visuallyHidden }}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </span>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell>
-              <TableSortLabel
-                active={orderBy === "lensGroupID"}
-                direction={orderBy === "lensGroupID" ? order : "asc"}
-                onClick={(event) => handleRequestSort(event, "lensGroupID")}
-              >
-                Lens Group ID
-                {orderBy === "lensGroupID" ? (
-                  <span style={{ ...visuallyHidden }}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </span>
-                ) : null}
-              </TableSortLabel>
-            </TableCell>
-            <TableCell> Lens Image </TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {lensData.length === 0 ? (
+    <>
+      <TableContainer component={Paper}>
+        <Table aria-label="Lenses table">
+          <TableHead>
             <TableRow>
-              <TableCell colSpan={4} align="center">
-                No lenses to display
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "lensCategory"}
+                  direction={orderBy === "lensCategory" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "lensCategory")}
+                >
+                  Lens Category
+                  {orderBy === "lensCategory" ? (
+                    <span style={{ ...visuallyHidden }}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
               </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "lensName"}
+                  direction={orderBy === "lensName" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "lensName")}
+                >
+                  Lens Name
+                  {orderBy === "lensName" ? (
+                    <span style={{ ...visuallyHidden }}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === "lensGroupID"}
+                  direction={orderBy === "lensGroupID" ? order : "asc"}
+                  onClick={(event) => handleRequestSort(event, "lensGroupID")}
+                >
+                  Lens Group ID
+                  {orderBy === "lensGroupID" ? (
+                    <span style={{ ...visuallyHidden }}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell> Lens Image </TableCell>
+              <TableCell></TableCell>
             </TableRow>
-          ) : (
-            lensData.map((row) => (
-              <TableRow key={row.lensID} hover>
-                <TableCell>{row.lensCategory}</TableCell>
-                <TableCell>{row.lensName}</TableCell>
-                <TableCell>{row.lensGroupID}</TableCell>
-                <TableCell>
-                  {row.lensImage && (
-                    <img
-                      src={row.lensImage}
-                      alt="Lens"
-                      style={{width:"200px", height:"auto"}}
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleDelete(row.lensID)}>
-                    <Delete />
-                  </IconButton>
+          </TableHead>
+          <TableBody>
+            {lensData.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  No lenses to display
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            ) : (
+              lensData.map((row) => (
+                <TableRow key={row.lensID} hover>
+                  <TableCell>{row.lensCategory}</TableCell>
+                  <TableCell>{row.lensName}</TableCell>
+                  <TableCell>{row.lensGroupID}</TableCell>
+                  <TableCell>
+                    {row.lensImage && (
+                      <img
+                        src={row.lensImage}
+                        alt="Lens"
+                        style={{ width: "200px", height: "auto" }}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton onClick={() => handleDelete(row.lensID)}>
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {showDeleteSuccess && (
+        <AlertNotification
+          message="Lens deleted successfully."
+          severity="success"
+        />
+      
+      )
+        
+      }
+      {showError && (
+        <AlertNotification message={errorMessage} severity="error" />
+      )}
+    </>
   );
 };
 

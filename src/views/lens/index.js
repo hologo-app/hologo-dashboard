@@ -11,6 +11,10 @@ import "./lens.custom.css";
 import LensesTable from "components/ui-component/tables/LensesTable";
 import { useCreateLens } from "api/lenses/lensAPI";
 import { useGlobal } from "context/GlobalContext";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import BackDropNotification from "components/alerts/BackDropNotification";
+import AlertNotification from "components/alerts/AlertNotification";
 
 const Lenses = () => {
 
@@ -23,7 +27,7 @@ const Lenses = () => {
     lensImage: "", // We will store base64 image here
   });
 
-  const { fetch, setFetch } = useGlobal();
+  const { fetch, setFetch,showBackdrop , setShowBackDrop ,showError,setShowError,showSuccess,setShowSuccess ,errorMessage,setErrorMessage } = useGlobal();
 
   const handleChange = (event) => {
     setFormData({
@@ -49,10 +53,19 @@ const Lenses = () => {
 
     try {
       const response = await createLens(formData);
-      console.log(response);
+      console.log(response.status);
+      setShowBackDrop(true)
+      if (response.status == 201){
+        setShowSuccess(true)
+         setShowBackDrop(false)
+      }
+
+
       setFetch(fetch + 1);
     } catch (error) {
-      console.log(error);
+      setShowError(true)
+      setErrorMessage(error.response.data)
+      console.log(error.response.data);
     }
 
     // Reset form data
@@ -71,6 +84,9 @@ const Lenses = () => {
   const theme = useTheme();
   return (
     <>
+    { showBackdrop &&
+      <BackDropNotification/>
+    }
       <MainCard title="Add Lenses">
         <form
           onSubmit={handleSubmit}
@@ -155,6 +171,14 @@ const Lenses = () => {
       <MainCard title="Lenses">
         <LensesTable  />
       </MainCard>
+      {showSuccess &&
+                    <AlertNotification message="Lens added successfully." severity="success" />
+    
+    }
+    {
+      showError &&
+      <AlertNotification message={errorMessage} severity="error" />
+    }
     </>
   );
 };

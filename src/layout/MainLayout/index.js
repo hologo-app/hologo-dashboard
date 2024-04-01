@@ -16,6 +16,10 @@ import { SET_MENU } from 'store/actions';
 // assets
 import { IconChevronRight } from '@tabler/icons-react';
 
+// context
+import { useGlobal } from 'context/GlobalContext';
+import AlertNotification from 'components/alerts/AlertNotification';
+
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'theme' })(({ theme, open }) => ({
   ...theme.typography.mainContent,
@@ -54,6 +58,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && pr
 
 const MainLayout = () => {
   const theme = useTheme();
+  const { showLoginSuccess} = useGlobal();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
   // Handle left drawer
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
@@ -90,6 +95,8 @@ const MainLayout = () => {
         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
         <Outlet />
       </Main>
+      {showLoginSuccess && <AlertNotification message="Login Successful" severity='success' />}
+
     </Box>
   );
 };

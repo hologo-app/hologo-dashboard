@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = 'https://hologo-dash-api.onrender.com';
+// const BASE_URL = 'https://hologo-dash-api.onrender.com';
+const BASE_URL = 'http://localhost:3500'
 
 
 export default axios.create({
