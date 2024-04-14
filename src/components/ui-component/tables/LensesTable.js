@@ -167,6 +167,8 @@ const LensesTable = () => {
           message="Lens deleted successfully."
           severity="success"
         />
+
+        
       
       )
         

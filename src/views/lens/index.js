@@ -27,7 +27,7 @@ const Lenses = () => {
     lensImage: "", // We will store base64 image here
   });
 
-  const { fetch, setFetch,showBackdrop , setShowBackDrop ,showError,setShowError,showSuccess,setShowSuccess ,errorMessage,setErrorMessage } = useGlobal();
+  const { fetch, setFetch,showBackdrop , setShowBackDrop ,showError,setShowError,showSuccess,setShowSuccess ,errorMessage,setErrorMessage , setShowDeleteSuccess } = useGlobal();
 
   const handleChange = (event) => {
     setFormData({
@@ -40,7 +40,7 @@ const Lenses = () => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setFormData({
+      setFormData({                                                                     
         ...formData,
         lensImage: reader.result, // Set base64 encoded image
       });
