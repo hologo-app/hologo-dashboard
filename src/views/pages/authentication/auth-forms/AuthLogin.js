@@ -94,7 +94,7 @@ const FirebaseLogin = ({ ...others }) => {
               setStatus({ success: true });
               setSubmitting(true);
               setShowLoginSuccess(true);
-              navigate("/dashboard");
+              navigate("/lenses");
             }
 
           } catch (err) {

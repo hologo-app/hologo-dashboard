@@ -30,16 +30,16 @@ const MainRoutes = {
     //     }
     //   ],
     // },
-    {
-      path: "dashboard",
-      element: <RequireAuth allowedRoles={ROLES[0]} />, // Here
-      children: [
-        {
-          path: "",
-          element: <DashboardDefault />,
-        },
-      ],
-    },
+    // {
+    //   path: "dashboard",
+    //   element: <RequireAuth allowedRoles={ROLES[0]} />, // Here
+    //   children: [
+    //     {
+    //       path: "",
+    //       element: <DashboardDefault />,
+    //     },
+    //   ],
+    // },
     {
       path: "lenses",
       element: <RequireAuth allowedRoles={ROLES[0]} />, // Here

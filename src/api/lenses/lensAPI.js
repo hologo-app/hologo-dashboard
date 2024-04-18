@@ -7,7 +7,7 @@ export const useCreateLens = () => {
   const axiosPrivate = useAxiosPrivate();
   const createLens = async (data) => {
     try {
-      const response = await axiosPrivate.post("/api/lens", data);
+      const response = await axiosPrivate.post("/lens", data);
       return response;
     } catch (error) {
       throw error;
@@ -26,7 +26,7 @@ export const useGetLenses = () => {
   useEffect(() => {
     const getLenses = async () => {
       try {
-        const response = await axiosPrivate.get("/api/lens");
+        const response = await axiosPrivate.get("/lens");
         setResponse(response);
       } catch (error) {
         setError(error);
@@ -46,7 +46,7 @@ export const useDeleteLens = () => {
   const { fetch ,setFetch } = useGlobal();
   const deleteLens = async (lensID) => {
     try {
-      const response = await axiosPrivate.delete("/api/lens", { data: { lensID } });
+      const response = await axiosPrivate.delete("/lens", { data: { lensID } });
       setFetch(fetch+1);
       return response;
     } catch (error) {

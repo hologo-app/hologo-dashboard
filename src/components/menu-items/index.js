@@ -7,7 +7,7 @@ import lenses from './lenses';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, lenses]
+  items: [lenses]
 };
 
 export default menuItems;
